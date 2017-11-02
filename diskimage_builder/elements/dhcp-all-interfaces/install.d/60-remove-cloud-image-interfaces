@@ -25,6 +25,6 @@ rm -f /etc/conf.d/net*
 if [ -f "/etc/network/interfaces" ]; then
     printf "auto lo\niface lo inet loopback\n\n" > /etc/network/interfaces
     if [ -d "/etc/network/interfaces.d/" ]; then
-        printf "source-directory interfaces.d\n\n" >> /etc/network/interfaces
+        printf "source /etc/network/interfaces.d/*.cfg\n\n" >> /etc/network/interfaces
     fi
 fi
