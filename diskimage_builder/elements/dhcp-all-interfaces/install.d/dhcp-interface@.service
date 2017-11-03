@@ -9,6 +9,7 @@ Description=DHCP interface %i
 DefaultDependencies=no
 After=network.target
 Before=network-online.target
+Before=cloud-init.service
 Wants=network-online.target
 
 ConditionPathExists=!/etc/sysconfig/network-scripts/ifcfg-%i
