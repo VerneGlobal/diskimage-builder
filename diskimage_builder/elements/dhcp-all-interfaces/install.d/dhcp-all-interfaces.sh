@@ -8,6 +8,7 @@ set -o pipefail
 
 INTERFACE=${1:-} #optional, if not specified configure all available interfaces
 ENI_FILE="/etc/network/interfaces"
+ENI_DIR="/etc/network/interfaces.d"
 
 PATH=/sbin:$PATH
 
@@ -50,7 +51,7 @@ function enable_interface() {
 
     serialize_me
     if [ "$CONF_TYPE" == "eni" ]; then
-        printf "auto $interface\niface $interface inet dhcp\n\n" >>$ENI_FILE
+        printf "auto $interface\niface $interface inet dhcp\n\n" >$ENI_DIR/$interface.cfg
     elif [ "$CONF_TYPE" == "rhel-netscripts" ]; then
         if [ "$(get_if_type $interface)" == "32" ]; then
             printf "DEVICE=\"$interface\"\nBOOTPROTO=\"dhcp\"\nONBOOT=\"yes\"\nTYPE=\"InfiniBand\"\nCONNECTED_MODE=\"no\"\nDEFROUTE=\"yes\"\nPEERDNS=\"yes\"\nPEERROUTES=\"yes\"\nIPV4_FAILURE_FATAL=\"yes\"\nIPV6INIT=\"no\"" >"${SCRIPTS_PATH}ifcfg-$interface"
